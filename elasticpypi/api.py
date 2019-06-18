@@ -9,7 +9,7 @@ from elasticpypi.config import config
 app = Flask(__name__)
 
 
-@app.route('/simple/', methods=['GET', 'POST'])
+@app.route('{}/simple/'.format(config['stage']), methods=['GET', 'POST'])
 def simple():
     if request.method == 'POST':
         f = request.files['content']
@@ -24,7 +24,7 @@ def simple():
     return render_template('simple.html', prefixes=prefixes, stage=config['stage'])
 
 
-@app.route('/simple/<name>/')
+@app.route('{}/simple/<name>/'.format(config['stage']))
 def simple_name(name):
     db = boto3.resource('dynamodb')
     packages = dynamodb.list_packages_by_name(db, name)
